@@ -1,1 +1,13 @@
 @import "tailwindcss";
+
+.parent::before {
+  content: "";
+  width: 5px;
+  height: 56px;
+  left: 0px;
+  top: 0px;
+  background-color: #1fa45b;
+  position: absolute;
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+}
