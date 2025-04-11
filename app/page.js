@@ -1,9 +1,12 @@
+"use client";
 import {
+  BadgeInfo,
   BedSingle,
   BookOpen,
   Bookmark,
   ChevronDown,
   ClipboardPlus,
+  Copy,
   HandHeart,
   HeartHandshake,
   House,
@@ -11,10 +14,27 @@ import {
   Lightbulb,
   MessageSquare,
   Search,
+  Share2,
 } from "lucide-react";
 import Image from "next/image";
+import { useState } from "react";
 
 export default function Home() {
+  const [active, setActive] = useState("what-is-dua");
+  const [dropDownOpen, setDropDownOpen] = useState(true);
+  const menuItems = [
+    { name: "what-is-dua", value: "What is Dua" },
+    { name: "conditions", value: "Conditions for Dua to be successful" },
+    { name: "method", value: "The Method Of Dua" },
+    { name: "before", value: "Before Dua" },
+    { name: "during", value: "During Dua" },
+    {
+      name: "prerequisites",
+      value: "Prerequisites of writing Dua and drinking its water",
+    },
+    { name: "small-child", value: "How to perform Dua for a small child" },
+  ];
+
   return (
     <div className="bg-[#f7f8fa]">
       <div className="lg:w-[1850px] mx-auto lg:pt-7">
@@ -73,6 +93,141 @@ export default function Home() {
                         <span className="bg-[#e8f0f5] py-[6px] px-[8px] rounded-[6px] absolute top-[4px] right-[4px]">
                           <Search color="#868686" />
                         </span>
+                      </div>
+                    </div>
+                    <div className="lg:mt-8">
+                      <div className="grid grid-cols-1 gap-6 lg:grid-cols-4">
+                        <div className="col-span-1">
+                          <div className="bg-white rounded-[10px]">
+                            <div>
+                              <h2 className="text-white bg-[#1FA45B] text-center rounded-t-[10px] py-3">
+                                Category
+                              </h2>
+                              <div className="relative p-3">
+                                <input
+                                  type="text"
+                                  placeholder="Search by Dua Name"
+                                  className="outline-none px-10 py-3 bg-white rounded-[10px] border-[2px] border-[#E2E2E2] w-full text-sm"
+                                />
+                                <span className="absolute top-[24px] left-[25px]">
+                                  <Search color="#868686" size={22} />
+                                </span>
+                              </div>
+                              <div className="p-3">
+                                <button
+                                  onClick={() => setDropDownOpen(!dropDownOpen)}
+                                  className="bg-[#e8f0f5] p-2 w-full rounded-[10px] cursor-pointer"
+                                >
+                                  <div className="flex justify-between items-center">
+                                    <div className="flex gap-4">
+                                      <div className="bg-[#cfe0e5] rounded-[10px] items-center p-2 w-[48px]">
+                                        <Image
+                                          src={"/Introduction.svg"}
+                                          alt="logo"
+                                          width={30}
+                                          height={30}
+                                        />
+                                      </div>
+                                      <div>
+                                        <div className="text-start">
+                                          <h2 className="text-[#1FA45B]">
+                                            Introduction to Dua
+                                          </h2>
+                                          <h2 className="text-sm text-[#7E7E7E]">
+                                            Subcategory: 11
+                                          </h2>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div>
+                                      <h2>15</h2>
+                                      <h2 className="text-sm text-[#7E7E7E]">
+                                        Duas
+                                      </h2>
+                                    </div>
+                                  </div>
+                                </button>
+                                <div>
+                                  <ul className="list-disc list-inside marker:text-green-700 pl-3 relative">
+                                    {dropDownOpen &&
+                                      menuItems.map((item) => (
+                                        <li
+                                          className={`cursor-pointer dot p-2 rounded hover:text-[#1FA45B] ${
+                                            active === item.name
+                                              ? "text-[#1FA45B] font-semibold"
+                                              : ""
+                                          }`}
+                                          key={item.name}
+                                          onClick={() => setActive(item.name)}
+                                        >
+                                          {item.value}
+                                        </li>
+                                      ))}
+                                  </ul>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div className="col-span-3">
+                          {/* main content here */}
+                          <div>
+                            <div className="bg-white rounded-[10px] px-4 py-3">
+                              <h2>
+                                <span className="text-[#1FA45B]">Section:</span>{" "}
+                                The servant is dependent on his Lord
+                              </h2>
+                            </div>
+                            <div className="mt-4">
+                              <div className="bg-white rounded-[10px]">
+                                <div className="p-4">
+                                  <div className="flex items-center gap-2">
+                                    <Image
+                                      src={"/allah.svg"}
+                                      width={30}
+                                      height={30}
+                                      alt="allahu"
+                                    />
+                                    <h2 className="text-[#1FA45B]">
+                                      1. The servant is dependent on his Lord #1
+                                    </h2>
+                                  </div>
+                                  <p className="text-[#393939] my-4 lg:my-7">
+                                    All human beings depend on Allah for their
+                                    welfare and prevention of evil in various
+                                    matters of their religion and world. Allah
+                                    says (interpretation of the meaning): O
+                                    mankind, you are those in need of Allah,
+                                    while Allah is the Free of need, the
+                                    Praiseworthy.
+                                  </p>
+                                  <h2 className="text-[#1FA45B]">Reference:</h2>
+                                  <h2 className="text-[#393939]">
+                                    Surah Al-Fatir 35:15
+                                  </h2>
+                                  <div className="flex justify-between items-center mt-6">
+                                    <div>
+                                      <Image
+                                        src={"/play.png"}
+                                        width={50}
+                                        height={50}
+                                        alt="play"
+                                        className="cursor-pointer"
+                                      />
+                                    </div>
+                                    <div className="flex items-center gap-4 lg:gap-8">
+                                      <Copy color="#868686" />
+                                      <Bookmark color="#868686" />
+                                      <Lightbulb color="#868686" />
+                                      <Share2 color="#868686" />
+                                      <BadgeInfo color="#868686" />
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>

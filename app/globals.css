@@ -11,3 +11,12 @@
   border-top-left-radius: 5px;
   border-bottom-left-radius: 5px;
 }
+
+.dot::before {
+  content: "";
+  border-left: 1px dashed #1fa45b;
+  height: 310px;
+  left: 22px;
+  top: 0px;
+  position: absolute;
+}
