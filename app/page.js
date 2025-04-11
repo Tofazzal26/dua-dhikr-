@@ -1,4 +1,6 @@
 "use client";
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
 import {
   BadgeInfo,
   BedSingle,
@@ -20,20 +22,22 @@ import Image from "next/image";
 import { useState } from "react";
 
 export default function Home() {
-  const [active, setActive] = useState("what-is-dua");
-  const [dropDownOpen, setDropDownOpen] = useState(true);
-  const menuItems = [
-    { name: "what-is-dua", value: "What is Dua" },
-    { name: "conditions", value: "Conditions for Dua to be successful" },
-    { name: "method", value: "The Method Of Dua" },
-    { name: "before", value: "Before Dua" },
-    { name: "during", value: "During Dua" },
-    {
-      name: "prerequisites",
-      value: "Prerequisites of writing Dua and drinking its water",
+  const [openCategoryId, setOpenCategoryId] = useState(null);
+  const [activeSubCategoryId, setActiveSubCategoryId] = useState(null);
+  const { data: subcategory = [] } = useQuery({
+    queryKey: ["subcategory"],
+    queryFn: async () => {
+      const resp = await axios.get("http://localhost:4000/api/subcategories");
+      return resp.data;
     },
-    { name: "small-child", value: "How to perform Dua for a small child" },
-  ];
+  });
+  const { data: category = [] } = useQuery({
+    queryKey: ["category"],
+    queryFn: async () => {
+      const resp = await axios.get("http://localhost:4000/api/categories");
+      return resp.data;
+    },
+  });
 
   return (
     <div className="bg-[#f7f8fa]">
@@ -114,56 +118,86 @@ export default function Home() {
                                 </span>
                               </div>
                               <div className="p-3">
-                                <button
-                                  onClick={() => setDropDownOpen(!dropDownOpen)}
-                                  className="bg-[#e8f0f5] p-2 w-full rounded-[10px] cursor-pointer"
-                                >
-                                  <div className="flex justify-between items-center">
-                                    <div className="flex gap-4">
-                                      <div className="bg-[#cfe0e5] rounded-[10px] items-center p-2 w-[48px]">
-                                        <Image
-                                          src={"/Introduction.svg"}
-                                          alt="logo"
-                                          width={30}
-                                          height={30}
-                                        />
-                                      </div>
-                                      <div>
-                                        <div className="text-start">
-                                          <h2 className="text-[#1FA45B]">
-                                            Introduction to Dua
-                                          </h2>
-                                          <h2 className="text-sm text-[#7E7E7E]">
-                                            Subcategory: 11
-                                          </h2>
+                                <div className="space-y-3">
+                                  {category?.map((item, idx) => (
+                                    <div key={item?.id}>
+                                      <button
+                                        onClick={() =>
+                                          setOpenCategoryId(
+                                            openCategoryId === item.cat_id
+                                              ? null
+                                              : item.cat_id
+                                          )
+                                        }
+                                        className={`p-2 w-full rounded-[10px] cursor-pointer transition ${
+                                          openCategoryId === item.cat_id
+                                            ? "bg-gray-100"
+                                            : "bg-white"
+                                        }`}
+                                      >
+                                        <div className="flex justify-between items-center">
+                                          <div className="flex gap-4">
+                                            <div className="bg-[#cfe0e5] rounded-[10px] items-center p-2 w-[48px]">
+                                              <Image
+                                                src={"/Introduction.svg"}
+                                                alt="logo"
+                                                width={30}
+                                                height={30}
+                                              />
+                                            </div>
+                                            <div>
+                                              <div className="text-start">
+                                                <h2 className="text-[#1FA45B]">
+                                                  {item?.cat_name_en}
+                                                </h2>
+                                                <h2 className="text-sm text-[#7E7E7E]">
+                                                  Subcategory:{" "}
+                                                  {item?.no_of_subcat}
+                                                </h2>
+                                              </div>
+                                            </div>
+                                          </div>
+                                          <div>
+                                            <h2>{item?.no_of_dua}</h2>
+                                            <h2 className="text-sm text-[#7E7E7E]">
+                                              Dua
+                                            </h2>
+                                          </div>
                                         </div>
+                                      </button>
+                                      <div>
+                                        {openCategoryId === item.cat_id && (
+                                          <div className="my-2">
+                                            {subcategory
+                                              ?.filter(
+                                                (sub) =>
+                                                  sub.cat_id === item.cat_id
+                                              )
+                                              ?.map((sub) => (
+                                                <button
+                                                  key={sub?.id}
+                                                  onClick={() =>
+                                                    setActiveSubCategoryId(
+                                                      sub?.id
+                                                    )
+                                                  }
+                                                  className={`w-full text-start dot px-3 relative ml-4 py-2 rounded-md block transition cursor-pointer ${
+                                                    activeSubCategoryId ===
+                                                    sub.id
+                                                      ? " text-[#1FA45B] font-semibold"
+                                                      : "hover:text-[#1FA45B]"
+                                                  }`}
+                                                >
+                                                  <span className="circle">
+                                                    {sub.subcat_name_en}
+                                                  </span>
+                                                </button>
+                                              ))}
+                                          </div>
+                                        )}
                                       </div>
                                     </div>
-                                    <div>
-                                      <h2>15</h2>
-                                      <h2 className="text-sm text-[#7E7E7E]">
-                                        Duas
-                                      </h2>
-                                    </div>
-                                  </div>
-                                </button>
-                                <div>
-                                  <ul className="list-disc list-inside marker:text-green-700 pl-3 relative">
-                                    {dropDownOpen &&
-                                      menuItems.map((item) => (
-                                        <li
-                                          className={`cursor-pointer dot p-2 rounded hover:text-[#1FA45B] ${
-                                            active === item.name
-                                              ? "text-[#1FA45B] font-semibold"
-                                              : ""
-                                          }`}
-                                          key={item.name}
-                                          onClick={() => setActive(item.name)}
-                                        >
-                                          {item.value}
-                                        </li>
-                                      ))}
-                                  </ul>
+                                  ))}
                                 </div>
                               </div>
                             </div>
