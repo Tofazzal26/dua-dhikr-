@@ -23,7 +23,8 @@ import { useState } from "react";
 
 export default function Home() {
   const [openCategoryId, setOpenCategoryId] = useState(null);
-  const [activeSubCategoryId, setActiveSubCategoryId] = useState(null);
+  const [activeSubCategoryId, setActiveSubCategoryId] = useState(1);
+  const [mainSubCategoryId, setMainSubCategoryId] = useState(1);
   const { data: subcategory = [] } = useQuery({
     queryKey: ["subcategory"],
     queryFn: async () => {
@@ -31,6 +32,15 @@ export default function Home() {
       return resp.data;
     },
   });
+
+  const { data: dua = [] } = useQuery({
+    queryKey: ["dua"],
+    queryFn: async () => {
+      const resp = await axios.get("http://localhost:4000/api/dua");
+      return resp.data;
+    },
+  });
+
   const { data: category = [] } = useQuery({
     queryKey: ["category"],
     queryFn: async () => {
@@ -188,7 +198,14 @@ export default function Home() {
                                                       : "hover:text-[#1FA45B]"
                                                   }`}
                                                 >
-                                                  <span className="circle">
+                                                  <span
+                                                    onClick={() =>
+                                                      setMainSubCategoryId(
+                                                        sub?.subcat_id
+                                                      )
+                                                    }
+                                                    className="circle"
+                                                  >
                                                     {sub.subcat_name_en}
                                                   </span>
                                                 </button>
@@ -212,53 +229,84 @@ export default function Home() {
                                 The servant is dependent on his Lord
                               </h2>
                             </div>
-                            <div className="mt-4">
-                              <div className="bg-white rounded-[10px]">
-                                <div className="p-4">
-                                  <div className="flex items-center gap-2">
-                                    <Image
-                                      src={"/allah.svg"}
-                                      width={30}
-                                      height={30}
-                                      alt="allahu"
-                                    />
-                                    <h2 className="text-[#1FA45B]">
-                                      1. The servant is dependent on his Lord #1
-                                    </h2>
-                                  </div>
-                                  <p className="text-[#393939] my-4 lg:my-7">
-                                    All human beings depend on Allah for their
-                                    welfare and prevention of evil in various
-                                    matters of their religion and world. Allah
-                                    says (interpretation of the meaning): O
-                                    mankind, you are those in need of Allah,
-                                    while Allah is the Free of need, the
-                                    Praiseworthy.
-                                  </p>
-                                  <h2 className="text-[#1FA45B]">Reference:</h2>
-                                  <h2 className="text-[#393939]">
-                                    Surah Al-Fatir 35:15
-                                  </h2>
-                                  <div className="flex justify-between items-center mt-6">
-                                    <div>
-                                      <Image
-                                        src={"/play.png"}
-                                        width={50}
-                                        height={50}
-                                        alt="play"
-                                        className="cursor-pointer"
-                                      />
+                            <div className="mt-4 space-y-4">
+                              {/* main */}
+                              {dua
+                                ?.filter(
+                                  (item) => item.subcat_id === mainSubCategoryId
+                                )
+                                ?.map((allDua, idx) => (
+                                  <div
+                                    key={idx}
+                                    className="bg-white rounded-[10px]"
+                                  >
+                                    <div className="p-4">
+                                      <div className="flex items-center gap-2">
+                                        <Image
+                                          src={"/allah.svg"}
+                                          width={30}
+                                          height={30}
+                                          alt="allahu"
+                                        />
+                                        <h2 className="text-[#1FA45B]">
+                                          {allDua.dua_name_en}
+                                        </h2>
+                                      </div>
+                                      <p className="text-[#393939] my-4 lg:my-7">
+                                        {allDua.top_en}
+                                      </p>
+                                      <h1 className="text-right text-2xl text-[#393939]">
+                                        {" "}
+                                        {allDua?.dua_arabic}{" "}
+                                      </h1>
+                                      {allDua.transliteration_en ? (
+                                        <>
+                                          <h1 className="text-[#393939] my-4">
+                                            {" "}
+                                            <span className="text-black">
+                                              Transliteration:
+                                            </span>{" "}
+                                            <i>{allDua?.transliteration_en}</i>
+                                          </h1>
+                                          <h1 className="text-[#393939] my-4">
+                                            {" "}
+                                            <span className="text-black">
+                                              Translation:
+                                            </span>{" "}
+                                            {allDua?.translation_en}
+                                          </h1>
+                                        </>
+                                      ) : (
+                                        ""
+                                      )}
+
+                                      <h2 className="text-[#1FA45B]">
+                                        Reference:
+                                      </h2>
+                                      <h2 className="text-[#393939]">
+                                        {allDua.refference_en}
+                                      </h2>
+                                      <div className="flex justify-between items-center mt-6">
+                                        <div>
+                                          <Image
+                                            src={"/play.png"}
+                                            width={50}
+                                            height={50}
+                                            alt="play"
+                                            className="cursor-pointer"
+                                          />
+                                        </div>
+                                        <div className="flex items-center gap-4 lg:gap-8">
+                                          <Copy color="#868686" />
+                                          <Bookmark color="#868686" />
+                                          <Lightbulb color="#868686" />
+                                          <Share2 color="#868686" />
+                                          <BadgeInfo color="#868686" />
+                                        </div>
+                                      </div>
                                     </div>
-                                    <div className="flex items-center gap-4 lg:gap-8">
-                                      <Copy color="#868686" />
-                                      <Bookmark color="#868686" />
-                                      <Lightbulb color="#868686" />
-                                      <Share2 color="#868686" />
-                                      <BadgeInfo color="#868686" />
-                                    </div>
                                   </div>
-                                </div>
-                              </div>
+                                ))}
                             </div>
                           </div>
                         </div>
