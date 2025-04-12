@@ -106,7 +106,7 @@ export default function Home() {
                             <HeartHandshake color="#ffffff" />
                           </h2>
                         </div>
-                        <h2 className="text-lg lg:text-2xl">Dua Page</h2>
+                        <h2 className="text-base lg:text-2xl">Dua Page</h2>
                       </div>
                       <div className="flex items-center gap-2">
                         <div className="relative">
@@ -131,8 +131,8 @@ export default function Home() {
                       </div>
                     </div>
                     <div className="lg:mt-8">
-                      <div className="grid grid-cols-1 lg:gap-6 lg:grid-cols-4">
-                        <div className="col-span-1">
+                      <div className="grid grid-cols-1 md:gap-4 lg:gap-6 md:grid-cols-5 lg:grid-cols-4">
+                        <div className="lg:col-span-1 md:col-span-2">
                           <div className="bg-white rounded-[10px]">
                             <div>
                               <h2 className="text-white bg-[#1FA45B] text-center rounded-t-[10px] py-3">
@@ -245,7 +245,7 @@ export default function Home() {
                             </div>
                           </div>
                         </div>
-                        <div className="col-span-3">
+                        <div className="lg:col-span-3 md:col-span-3">
                           {/* main content here */}
                           <div>
                             <div className="bg-white rounded-[10px] px-4 py-3">
