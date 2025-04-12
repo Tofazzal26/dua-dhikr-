@@ -29,7 +29,9 @@ export default function Home() {
   const { data: subcategory = [] } = useQuery({
     queryKey: ["subcategory"],
     queryFn: async () => {
-      const resp = await axios.get("http://localhost:4000/api/subcategories");
+      const resp = await axios.get(
+        "https://dua-dhikr-server.vercel.app/api/subcategories"
+      );
       return resp.data;
     },
   });
@@ -37,7 +39,9 @@ export default function Home() {
   const { data: dua = [] } = useQuery({
     queryKey: ["dua"],
     queryFn: async () => {
-      const resp = await axios.get("http://localhost:4000/api/dua");
+      const resp = await axios.get(
+        "https://dua-dhikr-server.vercel.app/api/dua"
+      );
       return resp.data;
     },
   });
@@ -46,7 +50,7 @@ export default function Home() {
     queryKey: ["category", searchCategory],
     queryFn: async () => {
       const resp = await axios.get(
-        `http://localhost:4000/api/categories?search=${searchCategory}`
+        `https://dua-dhikr-server.vercel.app/api/categories?search=${searchCategory}`
       );
       return resp.data;
     },
