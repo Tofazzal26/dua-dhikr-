@@ -25,6 +25,7 @@ export default function Home() {
   const [openCategoryId, setOpenCategoryId] = useState(null);
   const [activeSubCategoryId, setActiveSubCategoryId] = useState(1);
   const [mainSubCategoryId, setMainSubCategoryId] = useState(1);
+  const [searchCategory, setSearchCategory] = useState("");
   const { data: subcategory = [] } = useQuery({
     queryKey: ["subcategory"],
     queryFn: async () => {
@@ -42,19 +43,21 @@ export default function Home() {
   });
 
   const { data: category = [] } = useQuery({
-    queryKey: ["category"],
+    queryKey: ["category", searchCategory],
     queryFn: async () => {
-      const resp = await axios.get("http://localhost:4000/api/categories");
+      const resp = await axios.get(
+        `http://localhost:4000/api/categories?search=${searchCategory}`
+      );
       return resp.data;
     },
   });
 
   return (
-    <div className="bg-[#f7f8fa]">
+    <div className="bg-[#f7f8fa] lg:p-0 p-2">
       <div className="lg:w-[1850px] mx-auto lg:pt-7">
         <div>
           <div className="flex gap-6">
-            <div className="bg-white flex flex-col items-center justify-between lg:h-[700px] rounded-2xl py-4 px-4">
+            <div className="bg-white hidden lg:flex flex-col items-center justify-between lg:h-[700px] rounded-2xl py-4 px-4">
               <div>
                 <h2 className="bg-[#1fa45b] px-3 py-2 rounded-[5px]">
                   <HeartHandshake color="#ffffff" />
@@ -97,20 +100,38 @@ export default function Home() {
                 <div className="col-span-5">
                   <div>
                     <div className="flex justify-between items-center">
-                      <h2 className="text-lg lg:text-2xl">Dua Page</h2>
-                      <div className="relative">
-                        <input
-                          type="text"
-                          placeholder="Search by Dua Name"
-                          className="outline-none px-4 py-3 bg-white rounded-[10px] lg:w-[350px] text-sm"
-                        />
-                        <span className="bg-[#e8f0f5] py-[6px] px-[8px] rounded-[6px] absolute top-[4px] right-[4px]">
-                          <Search color="#868686" />
-                        </span>
+                      <div className="flex items-center gap-2">
+                        <div className="lg:hidden flex cursor-pointer">
+                          <h2 className="bg-[#1fa45b] px-2 py-1 rounded-[5px]">
+                            <HeartHandshake color="#ffffff" />
+                          </h2>
+                        </div>
+                        <h2 className="text-lg lg:text-2xl">Dua Page</h2>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <div className="relative">
+                          <input
+                            type="text"
+                            placeholder="Search by Dua Name"
+                            className="outline-none px-4 py-3 bg-white rounded-[10px] lg:w-[350px] text-sm"
+                          />
+                          <span className="bg-[#e8f0f5] py-[6px] px-[8px] rounded-[6px] absolute top-[4px] right-[4px]">
+                            <Search color="#868686" />
+                          </span>
+                        </div>
+                        <div className="lg:hidden cursor-pointer flex justify-end items-center gap-2">
+                          <Image
+                            src={"/man.png"}
+                            width={30}
+                            height={30}
+                            alt="profile"
+                          />
+                          <ChevronDown color="#868686" size={18} />
+                        </div>
                       </div>
                     </div>
                     <div className="lg:mt-8">
-                      <div className="grid grid-cols-1 gap-6 lg:grid-cols-4">
+                      <div className="grid grid-cols-1 lg:gap-6 lg:grid-cols-4">
                         <div className="col-span-1">
                           <div className="bg-white rounded-[10px]">
                             <div>
@@ -120,8 +141,12 @@ export default function Home() {
                               <div className="relative p-3">
                                 <input
                                   type="text"
-                                  placeholder="Search by Dua Name"
+                                  placeholder="Search by Categories"
                                   className="outline-none px-10 py-3 bg-white rounded-[10px] border-[2px] border-[#E2E2E2] w-full text-sm"
+                                  value={searchCategory}
+                                  onChange={(e) =>
+                                    setSearchCategory(e.target.value)
+                                  }
                                 />
                                 <span className="absolute top-[24px] left-[25px]">
                                   <Search color="#868686" size={22} />
@@ -315,7 +340,7 @@ export default function Home() {
                   </div>
                 </div>
                 <div className="col-span-1">
-                  <div>
+                  <div className="lg:block hidden">
                     <div className="flex justify-end items-center gap-2">
                       <Image
                         src={"/man.png"}
