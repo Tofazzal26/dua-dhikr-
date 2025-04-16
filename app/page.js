@@ -58,7 +58,7 @@ export default function Home() {
 
   return (
     <div className="bg-[#f7f8fa] lg:p-0 p-2">
-      <div className="lg:w-[1850px] mx-auto lg:pt-7">
+      <div className="2xl:w-[1850px] w-full mx-auto lg:pt-7">
         <div>
           <div className="flex gap-6">
             <div className="bg-white hidden lg:flex flex-col items-center justify-between lg:h-[700px] rounded-2xl py-4 px-4">
