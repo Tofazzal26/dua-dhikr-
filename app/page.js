@@ -290,7 +290,25 @@ export default function Home() {
                                       </h1>
                                       {allDua.transliteration_en ? (
                                         <>
-                                          <h1 className="text-[#393939] my-4">
+                                          <h1 className="text-[#393939] my-6">
+                                            {" "}
+                                            <span className="text-black">
+                                              Bangla:
+                                            </span>{" "}
+                                            <span className="text-sm text-gray-600">
+                                              {allDua?.transliteration_bn}
+                                            </span>
+                                          </h1>
+                                          <h1 className="text-[#393939] my-6">
+                                            {" "}
+                                            <span className="text-black text-sm">
+                                              অর্থ:
+                                            </span>{" "}
+                                            <span className="text-sm text-gray-600">
+                                              {allDua?.translation_bn}
+                                            </span>
+                                          </h1>
+                                          <h1 className="text-[#393939] my-6">
                                             {" "}
                                             <span className="text-black">
                                               Transliteration:
@@ -301,6 +319,13 @@ export default function Home() {
                                             {" "}
                                             <span className="text-black">
                                               Translation:
+                                            </span>{" "}
+                                            {allDua?.translation_en}
+                                          </h1>
+                                          <h1 className="text-[#393939] my-4">
+                                            {" "}
+                                            <span className="text-black">
+                                              Meaning:
                                             </span>{" "}
                                             {allDua?.translation_en}
                                           </h1>
